@@ -2,8 +2,8 @@ CC=gcc
 FILE=smart-sharpening
 APP_VER=2.10
 DST_DIR=/Users/$(USER)/Library/Application\ Support/GIMP/$(APP_VER)/plug-ins/$(FILE)
-APP_DIR=/Applications/GIMP-$(APP_VER).app
-APP_LIB=$(APP_DIR)/Contents/Resources/lib
+APP_DIR=/Applications/GIMP.app
+APP_RES=$(APP_DIR)/Contents/Resources
 
 all: macos
 
@@ -14,8 +14,8 @@ macos: clean
 	@mkdir -p $(DST_DIR)
 
 	@$(CC) -o $(DST_DIR)/$(FILE) $(FILE).c \
-		-Wl,-rpath,$(APP_LIB) \
-		-L$(APP_LIB) \
+		-Wl,-rpath,$(APP_RES) \
+		-L$(APP_RES)/lib \
 		-L/opt/X11/lib \
 		-I/opt/local/include/gimp-2.0 \
 		-I/opt/local/include/gegl-0.4 \
@@ -76,4 +76,4 @@ macos: clean
 		-lgtk-quartz-2.0.0
 
 clean:
-	@rm -f $(DST_DIR)/$(FILE)
+	@rm -rf $(DST_DIR)
